@@ -13,14 +13,20 @@ function App() {
   const playlistName = 'New playlist';
 
   const addTrack = useCallback(
-    (track) => {
-      if (playlistTracks.some(savedTrack => savedTrack.id === track.id))
-        return;
-      
-      setPlaylistTracks(prevTracks => [...prevTracks, track]);
-    }, 
-    [playlistTracks]
-  );
+  (track) => {
+    if (playlistTracks.some(savedTrack => savedTrack.id === track.id))
+      return;
+    
+    setPlaylistTracks(prevTracks => [...prevTracks, track]);
+  }, 
+  [playlistTracks]);
+
+  const removeTrack = useCallback(
+  (track) => {
+    setPlaylistTracks((prevTracks) => 
+      prevTracks.filter((currentTrack) => currentTrack.id !== track.id)
+    );
+  }, []);
 
   return (
     <div>
@@ -34,6 +40,7 @@ function App() {
           <Playlist 
             playlistName={playlistName}
             playlistTracks={playlistTracks}
+            onRemove={removeTrack}
           />
         </div>
       </div>
