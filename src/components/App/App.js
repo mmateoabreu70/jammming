@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
 
 import SearchBar from '../SearchBar/SearchBar';
@@ -7,8 +7,20 @@ import Playlist from '../Playlist/Playlist';
 import { data } from '../../services/data';
 
 function App() {
+  const [searchResults, setSearchResults] = useState(data);
+  const [playlistTracks, setPlaylistTracks] = useState([]);
+
   const playlistName = 'New playlist';
-  const playlistTracks = data;
+
+  const addTrack = useCallback(
+    (track) => {
+      if (playlistTracks.some(savedTrack => savedTrack.id === track.id))
+        return;
+      
+      setPlaylistTracks(prevTracks => [...prevTracks, track]);
+    }, 
+    [playlistTracks]
+  );
 
   return (
     <div>
@@ -18,7 +30,7 @@ function App() {
       <div className="App">
         <SearchBar />
         <div className='App-playlist'>
-          <SearchResults searchResults={data} />
+          <SearchResults searchResults={searchResults} onAdd={addTrack} />
           <Playlist 
             playlistName={playlistName}
             playlistTracks={playlistTracks}
