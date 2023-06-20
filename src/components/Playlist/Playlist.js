@@ -19,7 +19,7 @@ const Playlist = (props) => {
                 isRemoval={true}
                 onRemove={props.onRemove}
             />
-            <button className="Playlist-save">
+            <button className="Playlist-save" onClick={props.onSave}>
                 SAVE TO SPOTIFY
             </button>
         </div>

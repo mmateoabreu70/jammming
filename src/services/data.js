@@ -4,13 +4,15 @@ export const data = [
         name: 'En el nombre de Jesus',
         artist: 'Redimi2',
         album: 'AlbumX',
-        isRemoval: false
+        isRemoval: false,
+        uri: 'spotify:album:00001'
     },
     {
         id: 1,
         name: 'Trapstorno',
         artist: 'Redimi2',
         album: 'AlbumX',
-        isRemoval: true
+        isRemoval: true,
+        uri: 'spotify:album:00002'
     }
 ];

@@ -31,6 +31,16 @@ function App() {
     setPlaylistName(name);
   }, []);
 
+  const savePlaylist = useCallback(() => {
+    const trackUris = playlistTracks.map(track => track.uri);
+    let newPlaylist = {
+      name: playlistName,
+      tracks: trackUris
+    };
+
+    console.log(newPlaylist);
+  }, [playlistName, playlistTracks]);
+
   return (
     <div>
       <h1>
@@ -45,6 +55,7 @@ function App() {
             playlistTracks={playlistTracks}
             onRemove={removeTrack}
             onNameChange={updatePlaylistName}
+            onSave={savePlaylist}
           />
         </div>
       </div>
