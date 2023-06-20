@@ -8,24 +8,27 @@ import { data } from '../../services/data';
 
 function App() {
   const [searchResults, setSearchResults] = useState(data);
+  const [playlistName, setPlaylistName] = useState("New Playlist");
   const [playlistTracks, setPlaylistTracks] = useState([]);
 
-  const playlistName = 'New playlist';
-
   const addTrack = useCallback(
-  (track) => {
-    if (playlistTracks.some(savedTrack => savedTrack.id === track.id))
-      return;
-    
-    setPlaylistTracks(prevTracks => [...prevTracks, track]);
-  }, 
-  [playlistTracks]);
+    (track) => {
+      if (playlistTracks.some(savedTrack => savedTrack.id === track.id))
+        return;
+      
+      setPlaylistTracks(prevTracks => [...prevTracks, track]);
+    }, 
+    [playlistTracks]
+  );
 
-  const removeTrack = useCallback(
-  (track) => {
+  const removeTrack = useCallback((track) => {
     setPlaylistTracks((prevTracks) => 
       prevTracks.filter((currentTrack) => currentTrack.id !== track.id)
     );
+  }, []);
+
+  const updatePlaylistName = useCallback((name) => {
+    setPlaylistName(name);
   }, []);
 
   return (
@@ -41,6 +44,7 @@ function App() {
             playlistName={playlistName}
             playlistTracks={playlistTracks}
             onRemove={removeTrack}
+            onNameChange={updatePlaylistName}
           />
         </div>
       </div>
