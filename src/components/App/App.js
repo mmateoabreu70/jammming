@@ -5,11 +5,16 @@ import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import { data } from '../../services/data';
+import Spotify from '../../services/Spotify';
 
 function App() {
-  const [searchResults, setSearchResults] = useState(data);
+  const [searchResults, setSearchResults] = useState([]);
   const [playlistName, setPlaylistName] = useState("New Playlist");
   const [playlistTracks, setPlaylistTracks] = useState([]);
+
+  const search = useCallback((term) => {
+    Spotify.search(term).then(setSearchResults);
+  }, []);
 
   const addTrack = useCallback(
     (track) => {
@@ -33,12 +38,10 @@ function App() {
 
   const savePlaylist = useCallback(() => {
     const trackUris = playlistTracks.map(track => track.uri);
-    let newPlaylist = {
-      name: playlistName,
-      tracks: trackUris
-    };
-
-    console.log(newPlaylist);
+    Spotify.savePlaylist(playlistName, trackUris).then(() => {
+      setPlaylistName("New Playlist");
+      setSearchResults([]);
+    });
   }, [playlistName, playlistTracks]);
 
   return (
@@ -47,7 +50,7 @@ function App() {
         Ja<span className='highlight'>mmm</span>ing
       </h1>
       <div className="App">
-        <SearchBar />
+        <SearchBar onSearch={search} />
         <div className='App-playlist'>
           <SearchResults searchResults={searchResults} onAdd={addTrack} />
           <Playlist 
